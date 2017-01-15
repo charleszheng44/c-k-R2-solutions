@@ -1,0 +1,12 @@
+/*
+ * Write a program that will print arbitrary input in a sensible way. 
+ * As a minimum, it should print non-graphic characters in octal or 
+ * hexadecimal according to local custom, and break long text lines. 
+ */
+
+#include <stdio.h>
+
+#define OCTAL       8
+#define HEXADECIMAL 16
+
+//TODO: not quite understand the question well
