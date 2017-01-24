@@ -1,12 +1,15 @@
 /*
  * Write a program to print a histogram of the frequencies 
  * of different characters in its input.
+ * TODO: implement the draw_histogram(int *wrd_len_arr, int size)
  */
 
 #include <stdio.h>
 #include <ctype.h>
 
 #define chr_to_index(c) (c-'a')
+
+void draw_histogram(int *wrd_len_arr, int size);
 
 int main(void)
 {
@@ -29,3 +32,9 @@ int main(void)
 
     return 0;
 }
+
+void draw_histogram(int *wrd_len_arr, int size)
+{
+	puts("Not implement yet\n");
+}
+

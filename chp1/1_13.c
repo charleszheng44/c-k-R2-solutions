@@ -2,9 +2,8 @@
  * Write a program to print a histogram of the lengths of words in its input. 
  * It is easy to draw the histogram with the bars horizontal; a vertical 
  * orientation is more challenging.
+ * TODO implement the draw_histogram(int *wrd_len_arr, int size)
  */
-
-// TODO
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,28 +49,8 @@ int main(void)
     return 0;
 }
 
-//TODO
 void draw_histogram(int *wrd_len_arr, int size)
 {
-    int max_len;
-    int i;
-
-    for(i = 0, max_len = 0; i < size; i++) {
-        if(wrd_len_arr[i] > max_len) {
-            max_len = wrd_len_arr[i];
-        }
-    }
-    
-    
-
-    for(i = 0; i < max_len; i++) {
-        puts("-");
-    }
-    puts("\n");
-
-    for(i = 0; i < max_len; i++) {
-        printf("%d", i+1);
-    }
-    puts("\n");
+	puts("Not implement yet\n");
 }
 
