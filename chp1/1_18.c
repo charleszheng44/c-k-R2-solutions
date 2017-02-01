@@ -18,15 +18,13 @@ int main(void)
     int j;
 
     line_len = get_line(line, MAXLINE);
-
     // skip the line[line_len-1], which is '\0'
     for(i = line_len - 2; i >= 0; i--) {
-        if(line[i] == ' ' || line[i] == '\t') {
-            i--;
-        } 
-        break;
+        if(line[i] != ' ' && line[i] != '\t') {
+            break;
+        }
     } 
-
+   
     for(j = 0; j <= i; j++) {
         putchar(line[j]);
     }
