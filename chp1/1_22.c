@@ -16,29 +16,39 @@ int get_line(char *line, int size);
 
 int main(void) 
 {
-    char line[MAXLINE];
-    int lin_len;
+    char *line = malloc(sizeof(char) * MAXLINE);
+    char *orig_line = line;
+    int line_len;
     int offset;
     int i;
    
     offset = 0; 
 
     while((line_len = get_line(line, MAXLINE)) != -1) {
+
         if(line_len <= LEN_LIMIT) {
-            printf("%d", line);
+            printf("%s", line);
         } else {
-            while(line + LEN_LIMIT <= len) {
+            while(line + LEN_LIMIT <= orig_line + line_len) {
                 offset = cut(line, line_len, LEN_LIMIT);
                 for(i = 0; i <= offset; i++) {
-                    putchar(line[i]);
+                    if(line[i] == ' ')
+                        putchar(' ');
+                    else
+                        putchar(line[i]);
                 }
                 putchar('\n');
-                line += offset; 
+                line = line + offset + 1; 
             }  
             
             printf("%s\n", line);
         } 
     }
+
+    if(line) {
+        free(line);
+    }
+    return 0;
 }
 
 int cut(char *line, int len, int limit)
@@ -98,7 +108,7 @@ int get_line(char *line, int size)
     line[i++] = '\0';
     
     if(c == EOF) {
-        i = -1
+        i = -1;
     }
 
     return i;
