@@ -9,9 +9,11 @@
 #include <unistd.h>
 #include <getopt.h>
 #include <string.h>
+#include <math.h>
 
 void show_help();
 unsigned long decimal_to_binary(int i);
+unsigned long binary_to_decimal(int bin, int digit);
 
 int main(int argc, char *argv[]) 
 {
@@ -57,5 +59,17 @@ unsigned long decimal_to_binary(int i)
         return 0;
     } else {
         return (i % 2 + 10 * (decimal_to_binary(i / 2)));
+    }
+}
+
+unsigned long binary_to_decimal(int bin, int digit)
+{
+    unsigned long ul;
+
+    if(bin == 0) {
+        return 0;
+    } else {
+        ul = (bin % 10) ? pow(2, digit) : 0; 
+        return (ul + binary_to_decimal(bin / 10, ++digit));
     }
 }
