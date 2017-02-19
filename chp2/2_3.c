@@ -37,7 +37,7 @@ int get_hex(char *hex_num, int size)
     // process the first two difit 
     if(c == '0') {
         if((c = getchar()) == 'x' || c == 'X') {
-            hex_num[i] = '0'; // hex_num[0] = '0'
+            hex_num[i++] = '0'; // hex_num[0] = '0'
             hex_num[i++] = c; // hex_num[1] = 'x' or 'X' 
             while((c = getchar()) != '\t' && c != ' ' && c != '\n') {
 
@@ -91,13 +91,14 @@ int htoi(const char *s, int size)
     int i;
     int j;
     int dec_num;
+    int num_digit;
 
     if(size == 0) {
         fprintf(stderr, "The hexadecimal number has 0 digit\n");
         exit(EXIT_FAILURE);
     }
 
-    if(s[0] == '0' && size > 1 && (s[1] != 'x' || s[1] != 'X')) {
+    if(s[0] == '0' && size > 1 && (s[1] != 'x' && s[1] != 'X')) {
         fprintf(stderr, "Incorrect input format\n");
         exit(EXIT_FAILURE);
 
@@ -106,10 +107,11 @@ int htoi(const char *s, int size)
     dec_num = 0;
 
     if(s[0] == '0' && (s[1] == 'x' || s[1] == 'X')) {
-        size = size - 2; 
+        num_digit = size - 2; 
     } 
 
-    for(i = size-1, j = 0; i > 0; i--, j++) {
+    int curr_num;
+    for(i = size-1, j = 0; i > 0, j < num_digit; i--, j++) {
         curr_num = hex_digit_to_dec_digit(s[i]) * pow(16, j);
         dec_num += curr_num;
     } 
@@ -120,7 +122,7 @@ int htoi(const char *s, int size)
 int hex_digit_to_dec_digit(char hex_char) {
     int dec_num;
     if(hex_char > '0' && hex_char < '9') {
-        dec_num = hex_char - '0'
+        dec_num = hex_char - '0';
     } else if(hex_char > 'a' && hex_char < 'f') {
         dec_num = hex_char - 'a' + 16;
     } else if(hex_char > 'A' && hex_char < 'F') {
