@@ -5,19 +5,42 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 #define STR_LEN 32
 
-const char *integer_to_binary_str(int n);
+const char *integer_to_binary_str(unsigned int n);
+unsigned int setbits(unsigned int x, int p, int n, unsigned int y);
 
 int main(void)
 {
-    int n = 56;
-    const char *bin_str = integer_to_binary_str(n);
-    printf("The binary format of %d is %s\n", n, bin_str);
+   
+    unsigned int x = 156;
+    unsigned int y = 56;
+    
+    int p = 23;
+    int n = 4;
+
+    printf("%u\n", setbits(x, p, n, y)); 
+
     return 0;
 }
 
-const char *integer_to_binary_str(int n)
+unsigned int setbits(unsigned int x, int p, int n, unsigned int y)
+{
+    size_t len = sizeof(unsigned int) * CHAR_BIT; 
+    // get [1...1][0..0][1...1]
+    unsigned int zero_mask = (~0 << (len-p)) | (~0 >> (len-p-n)); 
+    unsigned int one_mask = ~zero_mask;
+    // set the n bits in x start at p as 0
+    unsigned int tmp_x = zero_mask & x;
+
+    unsigned int tmp_y = (~0 << (len-p-n)) & one_mask;
+
+    return tmp_x | tmp_y;
+    
+}
+
+const char *integer_to_binary_str(unsigned int n)
 {
     char buff[STR_LEN];
     char reminder;
