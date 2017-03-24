@@ -32,14 +32,10 @@ void itoa(int n, char s[])
     int i, sign;
     i = 0;
 
-    if((sign = n) < 0) {
-        n = -n;
-    }
-
     do {
         s[i++] = abs(n % 10) + '0';
     } while( n /= 10 );
-    if(sign < 0) {
+    if(n < 0) {
         s[i++] = '-';
     }
     s[i] = '\0';
