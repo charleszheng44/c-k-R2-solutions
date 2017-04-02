@@ -26,7 +26,7 @@ int getop(char s[]);
 int main() {
     int type;
     char s[BUFSIZE];
-    double op2;
+    double op1, op2;
     double test;
 
     while ((type = getop(s)) != EOF) {
@@ -71,16 +71,27 @@ int main() {
 
 int getop(char s[])
 {
-    int i, c;
+    int i, c, next;
     while((s[0] = c = getch()) == ' ' || c == '\t') 
         ;
     s[1] = '\0';
-    if(!isdigit(c) && c != '.')
+    if(!isdigit(c) && c != '.' && c != '-')
         return c;
+    
+    if(c == '-') {
+        if(!isdigit(next = getch()) && next != '.') {
+            // '-' is an operator
+            return c;
+        }
+        c = next;
+    } else {
+        c = getch();
+    }
+
     i = 0;
-    if(isdigit(c))
-        while(isdigit(s[++i] = c = getch()))
-            ;
+    while(isdigit(s[++i] = c))
+        c = getch();
+    
     if(c == '.')
         while(isdigit(s[++i] = c = getch()))
             ;
