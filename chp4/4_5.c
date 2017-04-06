@@ -73,25 +73,43 @@ int main() {
 
 int getop(char s[])
 {
-    int i, c;
+    int i, c, next;
     while((s[0] = c = getch()) == ' ' || c == '\t') 
         ;
     s[1] = '\0';
    
     i = 0; 
+
     if(isalpha(c)) {
+        // first, process the possible math operator
+
         while(isalpha(s[++i] = c = getch())) 
             ;
         s[i] = '\0';
+
         if(c != EOF)
             ungetch(c);
+
         return MATH_OPT;
+
     } else {
-        if(!isdigit(c) && c != '.')
+
+        if(!isdigit(c) && c != '.' && c != '-')
             return c;
-        if(isdigit(c))
-            while(isdigit(s[++i] = c = getch()))
-                ;
+
+        if(c == '-') {
+            if(!isdigit(next = getch()) && next != '.') {
+                // '-' is an operator
+                return c;
+            }
+            c = next;
+        } else {
+            c = getch();
+        }
+
+        while(isdigit(s[++i] = c))
+            c = getch();
+
         if(c == '.')
             while(isdigit(s[++i] = c = getch()))
                 ;
@@ -118,15 +136,23 @@ void ungetch(int c)
 void run_math_func(char s[]) 
 {
     if(strcmp(s, "sin") == 0) {
+
         push(sin(pop()));
+
     } else if(strcmp(s, "exp") == 0) {
+
         push(exp(pop()));
+
     } else if(strcmp(s, "pow") == 0) {
+
         double power = pop();
         double base = pop();
         push(pow(base, power));
+
     } else {
+
         fprintf(stderr, "unsupported operator %s\n", s);
         exit(1);
+
     }
 }

@@ -88,6 +88,9 @@ int getop(char s[])
         c = getch();
     }
 
+    // at this moment, we have processed the first
+    // character and got the second character
+
     i = 0;
     while(isdigit(s[++i] = c))
         c = getch();
