@@ -98,11 +98,13 @@ int getop(char s[])
             return c;
 
         if(c == '-') {
+
             if(!isdigit(next = getch()) && next != '.') {
                 // '-' is an operator
                 return c;
             }
             c = next;
+
         } else {
             c = getch();
         }
