@@ -2,7 +2,7 @@
  * Given the basic framework, it's straightforward to extend the calculator. 
  * Add the modulus ( % ) operator and provisions for negative numbers.
  *
- * TODO: In c the modulus operator is actually the remainder operator
+ * In c the modulus operator is actually the remainder operator
  * Simplly using fmod(float f1, float f2)? or implement a real modulus 
  * operator?
  */
