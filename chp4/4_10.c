@@ -8,28 +8,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <ctype.h>
 
 #include "stack.h"
 
-#define NUMBER          0
+#define NUMBER          '0'
 #define MAX_BUF_SIZE    1024
 
 static int my_getline(char line[], int size);
 static int getop(char s[], char line[]); 
+static int line_i;
 
 int main(void)
 { 
 
     char line[MAX_BUF_SIZE];
-    char s[MAX_BUF_SIZE]
+    char s[MAX_BUF_SIZE];
     int line_len;
     int type;
-    int op_2;
+    double op_2;
 
     while((line_len = my_getline(line, MAX_BUF_SIZE)) != 0) {
 
-        while(type = getop(s, line)) {
+        line_i = 0;
 
+        while((type = getop(s, line)) != '\0') {
             switch(type) {
                 case NUMBER:
                     push(atof(s));
@@ -45,7 +48,7 @@ int main(void)
                     break;
 
                 case '*':
-                    push(pop() + pop());
+                    push(pop() * pop());
                     break;
 
                 case '/':
@@ -55,11 +58,15 @@ int main(void)
 
                 case '%':
                     op_2 = pop();
-                    push(pop() % op_2);
+                    push(fmod(pop(), op_2));
+                    break;
+
+                case '\n':
+                    printf("%f\n", pop());
                     break;
 
                 default:
-                    fprintf(stderr, "unknown operator %c\n", type);
+                    fprintf(stderr, "unknown operator %d\n", type);
                     exit(EXIT_FAILURE);                
 
             }
@@ -74,35 +81,28 @@ int main(void)
 
 static int getop(char s[], char line[])
 {
-    int i, j;
-    
-    i = 0;
-
-    while((s[0] = line[i]) == ' ' || s[0] == '\t') {
-        i ++;
-    }
+    int j, c;
+    while((s[0] = c = line[line_i++]) == ' ' || c == '\t') 
+        ;
     
     s[1] = '\0';
-
-    j = 0;
-    
-    if(!isdigit(line[i]) && line[i] != '.') {
-        return line[i];
+    if(!isdigit(c) && c != '.') {
+        return c;
     } 
     
-    if(isdigit(line[i])) {
-        while(isdigit(line[i])) {
-            s[j++] = line[i++]; 
-        }
+    j = 0;
+    if(isdigit(c)) {
+        while(isdigit(s[++j] = c = line[line_i++])) 
+            ;
     }
     
-    if(line[i] == '.') {
-        s[j++] = line[i++];
-        while(isdigit(line[i])) {
-            s[j++] = line[i++];
-        }
+    if(c == '.') {
+        while(isdigit(s[++j] = c = line[line_i++])) 
+            ;
     }
 
+    s[++j] = '\0';
+    line_i --;
     return NUMBER; 
 
 }
@@ -121,7 +121,11 @@ static int my_getline(char line[], int size)
         fprintf(stderr, "Too many characters\n");
         exit(EXIT_FAILURE);
     }
+    
+    if(c == '\n' || c == EOF) {
+        line[i++] = '\n';
+    }
 
-    line[i] = '\0';
-    return i+1;
+    line[i++] = '\0';
+    return i;
 }
