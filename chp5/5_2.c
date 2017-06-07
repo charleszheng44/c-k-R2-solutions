@@ -35,6 +35,15 @@ void ungetch(int c)
 
 int getfloat(float *) 
 {
+    int c;
+
+    while(isspace(c = getch()))
+        ;
+
+    if(!isdigit(c) && c != EOF && c != "+" && c != "-" && c != ".") {
+        ungetch(c);
+        return 0;
+    }
 }
 
 int main(void)
